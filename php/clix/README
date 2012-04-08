@@ -1,0 +1,23 @@
+Clix
+
+If you want to add to your project some php scripts that will be runned from cli mode, then its time to use Clix.
+Clix will help you to organize those scripts in one place with the same interface and feauter like:
+
+ - mapping command line argument to task variables
+ - display help message for task when --help parameter will be passed
+ - interactive mode
+ - all parameters will be check if they are correct
+
+HOW TO USE IT: run example cli.php file 
+
+To display help:
+    php cli.php HelloWord --help
+
+To run task:
+    php cli.php HelloWord firstname=Adam lastname=Smith --uppercase
+
+To run interactive mode:
+    php cli.php
+
+To list all available task:
+    php cli.php --list
