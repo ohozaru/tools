@@ -1,0 +1,51 @@
+Prints human-readable information about a variable e.g.
+./test.py will give us output:
+
+Object<Foo> {
+	y = [
+		9,
+		8,
+		7,
+	]
+
+	boo = Object<Boo> {
+		foo = Object<Foo> {
+			test = test
+			y = [
+				9,
+				8,
+				7,
+			]
+
+			z = {
+				1 : a
+				2 : c
+				3 : d
+			}
+
+			id = Object<None>
+			x = (
+				1,
+				2,
+				3,
+			)
+
+		}
+
+	}
+
+	test = test
+	x = (
+		1,
+		2,
+		3,
+	)
+
+	z = {
+		1 : a
+		2 : c
+		3 : d
+	}
+
+	id = Object<None>
+}
