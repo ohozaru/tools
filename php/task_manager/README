@@ -1,0 +1,11 @@
+PHPTaskManager is useful when you want to run some task periodically
+and you don't want to hold their configuration outside your project
+e.g. in system crontab file. 
+
+Usage: php example.php crontab
+
+For more info see example.php
+
+http://dl.dropbox.com/u/275381/nowicki.cjb.net/index.html?php-task-manager
+
+Copyright (c) Roman Nowicki <peengle@gmail.com>
