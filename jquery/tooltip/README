@@ -1,0 +1,15 @@
+@copyright Timi (http://timiportfolio.com/)
+This plugin will change default tooltip attribute to nice styled tooltip
+
+Usage:
+//include tooltip js and css
+
+<body>
+...
+<p class="tooltip" title="Test this tooltip plugin">Test plugin (move mouse pointer over this text)</p>
+...
+</body>
+
+<script>
+    $('.tooltip').tooltip();
+</script>

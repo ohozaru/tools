@@ -1,0 +1,6 @@
+/** CSS --*/
+.tooltip { cursor: help; position: relative; }
+.tooltip .bubble { background: #d5f1fa; border: 1px solid #C6EDF9; border-radius: 4px; width: 262px; position: absolute; bottom: 30px; left: -14px; padding: 6px 12px; z-index: 2; display: none; }
+.tooltip em { line-height: 1.4; color: #404040; font-style: normal; }
+.tooltip .arrow_border { border-color: #C6EDF9 transparent transparent transparent; border-style: solid; border-width: 10px; height: 0; width: 0; position: absolute; bottom: -21px; left: 20px; }
+.tooltip .arrow { border-color: #d5f1fa transparent transparent transparent; border-style: solid; border-width: 10px; height: 0; width: 0; position: absolute; bottom: -20px; left: 20px; }
