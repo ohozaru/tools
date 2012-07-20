@@ -2,6 +2,9 @@
 class HelloWord extends ClixTask
 {
     const HINT = 'Example HelloWord task';
+    const DESCRIPTION = <<<TXT
+HelloWord is just an example, self explained.
+TXT;
 
     public $params_config = '{ 
         "firstname": {

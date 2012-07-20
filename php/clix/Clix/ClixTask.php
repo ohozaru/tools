@@ -4,7 +4,8 @@ interface ClixTaskInterface {}
 class ClixTaskException extends Exception {}
 abstract class ClixTask implements ClixTaskInterface {
 
-    const HINT = '<<<missing const HINT>>>';
+    const HINT = '<<<missing HINT>>>';
+    const DESCRIPTION = '<<<missing DESCRIPTION>>>';
     const BACKSPACE = "\x08";
 
     public $startTime;
@@ -125,6 +126,7 @@ abstract class ClixTask implements ClixTaskInterface {
         $taskName = get_class($this);
         $hint = constant($taskName . '::HINT');
         $scriptName = Clix::$scriptName;
+        $description = constant($taskName . '::DESCRIPTION');
 
         foreach(array_keys($this->getParamsConfiguration()) as $param) {
             $mandatory = $this->isParamMandatory($param) ? '!' : ' ';
@@ -156,6 +158,9 @@ Usage:
 
 Valid options:
 $valid_options
+
+MORE:
+$description
 EOT;
         Clix::message($message);
     }
