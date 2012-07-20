@@ -1,6 +1,5 @@
 <?php
 /**
- * ServiceLayer factory class
  * Usage:
     Service::init(array(<config>))
     Service::get('Article')->getBreakingNews(10);
