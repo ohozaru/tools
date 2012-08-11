@@ -1,10 +1,7 @@
 <?php
 namespace Service\Test;
-require_once(__DIR__ . '/../entity/Test.php');
-require_once(__DIR__ . '/../entity/collection/Test.php');
-
-use Entity\Test as Entity;
-use Entity\Collection\Test as Collection;
+require_once(__DIR__ . '/test/_entity.php');
+require_once(__DIR__ . '/test/_collection.php');
 
 function foo() {
     return 'foo';

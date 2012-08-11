@@ -1,7 +1,7 @@
 <?php
-namespace Entity;
+namespace Service\Test;
 
-class Test {
+class Entity {
     public function __construct($id) {
         $this->id = $id;
     }

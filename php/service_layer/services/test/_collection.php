@@ -1,8 +1,8 @@
 <?php
-namespace Entity\Collection;
-require_once(__DIR__ . '/../Test.php');
+namespace Service\Test;
 
-class Test extends \ArrayIterator {
+class Collection extends \ArrayIterator {
+    //those methods should be placed in abstract class
     public function __call($name, $args) {
         $this->rewind();
         return call_user_func_array(array($this->current(),$name), $args);
