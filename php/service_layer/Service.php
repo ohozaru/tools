@@ -50,7 +50,7 @@ class Service {
         return call_user_func_array($method_name, $args);
     }
 
-    static public function get($name) {
+    static public function _($name) {
         if(!self::$_instance) {
             self::init();
         }
