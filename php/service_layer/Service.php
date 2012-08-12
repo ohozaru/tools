@@ -1,6 +1,7 @@
 <?php
 /**
  * ServiceLayer factory class
+ * https://github.com/nigro/tools/tree/master/php/service_layer
  * Usage:
     Service::init(array(<config>))
     Service::get('Article')->getBreakingNews(10);
