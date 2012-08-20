@@ -3,8 +3,8 @@ namespace Service\Test;
 require_once(__DIR__ . '/test/_entity.php');
 require_once(__DIR__ . '/test/_collection.php');
 
-function foo() {
-    return 'foo';
+function get($foo) {
+    return $foo;
 }
 
 function getTestCollection() {
