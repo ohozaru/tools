@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Author Roman Nowicki (http://nowicki.cjb.net)
-# A server-side git hook script for checking PHP syntax
-
+# A server-side git hook script for checking PHP syntax and validating coding standard
+# Depends on: PHP_CodeSniffer (http://pear.php.net/package/PHP_CodeSniffer/)
 import os
 import sys
 oldrev, newrev, ref = sys.stdin.read().strip().split(' ')
