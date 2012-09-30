@@ -21,7 +21,7 @@ for line in os.popen('git diff --name-only %s %s' % (oldrev, newrev)).readlines(
             print "PHP Syntax error in file %s" % (file_name)
             sys.exit(1)
 
-        result = os.system("phpcs --warning-severity=0 --standard=/var/lib/gitosis/coding_standards.xml %s" % (test_file))
+        result = os.system("phpcs --warning-severity=0 --standard=/home/gitosis/coding_standards.xml %s" % (test_file))
         if(result != 0): 
             print "Coding standards fail in file %s" % (file_name)
             sys.exit(2)
