@@ -3,6 +3,9 @@
 # A server-side git hook script for checking PHP syntax and validating coding standard
 # Depends on: PHP_CodeSniffer (http://pear.php.net/package/PHP_CodeSniffer/)
 # Install: copy this script to <server side repo location>/hooks/pre-receive
+#!/usr/bin/python
+# Author Roman Nowicki
+
 import os
 import sys
 oldrev, newrev, ref = sys.stdin.read().strip().split(' ')
@@ -13,16 +16,11 @@ for line in os.popen('git diff --name-only %s %s' % (oldrev, newrev)).readlines(
     file_name = line.strip()
 
     if(extension == 'php'):
-        cmd = "git ls-tree --full-name -r %s | grep \"%s$\" | awk '{ print $3 }'" % (newrev, file_name)
-        blob = os.popen(cmd).read().strip()
-        os.system("git cat-file blob %s > %s" % (blob, test_file))
-        result = os.system('php -l ' + test_file + ' > /dev/null')
-        if(result != 0): 
+        os.system("git cat-file -p %s:%s > %s" % (newrev, file_name, test_file))
+        if 0 != os.system('php -l ' + test_file + ' > /dev/null'):
             print "PHP Syntax error in file %s" % (file_name)
             sys.exit(1)
 
-        result = os.system("phpcs --warning-severity=0 --standard=/home/gitosis/coding_standards.xml %s" % (test_file))
-        if(result != 0): 
+        if 0 != os.system("phpcs -n --standard=/var/lib/gitosis/goal_coding_standards.xml %s" % (test_file)):
             print "Coding standards fail in file %s" % (file_name)
             sys.exit(2)
-
