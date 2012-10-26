@@ -89,6 +89,7 @@ class Request
         curl_setopt($ch, CURLOPT_URL, $this->_uri);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Expect:")); //override HTTP/1.1 Except: 100-continue header to not allow chunked transfer
         $response = curl_exec($ch);
         $headerLength = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $this->_response = new Response(
