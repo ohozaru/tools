@@ -27,10 +27,20 @@ class Request
     protected $_cacheTime = 0;
     protected $_lockTime = 1;
     protected $_response;
+    protected $_requestTimeout = 10000; //in miliseconds
 
     public function __construct($backend)
     {
         $this->_backend = $backend;
+    }
+
+    /**
+     * @param $timeout (int) miliseconds
+     */
+    public function setRequestTimeout($timeout)
+    {
+        $this->_requestTimeout = (int)$timeout;
+        return $this;
     }
 
     public function setCacheTime($timeInSeconds)
@@ -89,13 +99,20 @@ class Request
         curl_setopt($ch, CURLOPT_URL, $this->_uri);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $this->_requestTimeout);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Expect:")); //override HTTP/1.1 Except: 100-continue header to not allow chunked transfer
+        $this->_response = new Response;
         $response = curl_exec($ch);
-        $headerLength = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $this->_response = new Response(
-            substr($response, $headerLength),
-            explode("\n", trim(substr($response, 0, $headerLength)))
-        );
+        if ($response === false) {
+            $this->_response
+                ->addHeader('HTTP/1.1 408 Request Time-out');
+        }
+        else {
+            $headerLength = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+            $this->_response
+                ->setBody(substr($response, $headerLength))
+                ->addHeaders(explode("\n", trim(substr($response, 0, $headerLength))));
+        }
         curl_close($ch);
     }
 
