@@ -27,19 +27,18 @@ class Request
     protected $_cacheTime = 0;
     protected $_lockTime = 1;
     protected $_response;
-    protected $_requestTimeout = 10000; //in miliseconds
+    protected $_requestTimeout = 10;
+    protected $_requestTimeoutInMilliseconds = false; //Added in cURL 7.16.2. Available since PHP 5.2.3.
 
     public function __construct($backend)
     {
         $this->_backend = $backend;
     }
 
-    /**
-     * @param $timeout (int) miliseconds
-     */
-    public function setRequestTimeout($timeout)
+    public function setRequestTimeout($timeout, $inMilliseconds = false)
     {
         $this->_requestTimeout = (int)$timeout;
+        $this->_requestTimeoutInMilliseconds = (bool)$inMilliseconds;
         return $this;
     }
 
@@ -99,7 +98,12 @@ class Request
         curl_setopt($ch, CURLOPT_URL, $this->_uri);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $this->_requestTimeout);
+        if ($this->_requestTimeoutInMilliseconds) {
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $this->_requestTimeout);
+        }
+        else {
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->_requestTimeout);
+        }
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Expect:")); //override HTTP/1.1 Except: 100-continue header to not allow chunked transfer
         $this->_response = new Response;
         $response = curl_exec($ch);
