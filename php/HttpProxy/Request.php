@@ -22,6 +22,7 @@ class Request
 {
     const IN_PROGRESS_SIGNAL = 'INPROGRESS';
 
+    protected $_httpVersion = CURL_HTTP_VERSION_1_1;
     protected $_uri;
     protected $_backend;
     protected $_cacheTime = 0;
@@ -33,6 +34,26 @@ class Request
     public function __construct($backend)
     {
         $this->_backend = $backend;
+    }
+
+    /**
+     * @version (float) 1.0 or 1.0
+     */
+    public function setHttpVersion($version)
+    {
+        if (!is_float($version)) {
+            throw new \InvalidArgumentException('Http version parameter must be float type');
+        }
+        else if ($version === 1.0) {
+            $this->_httpVersion = CURL_HTTP_VERSION_1_0;
+        }
+        else if ($version === 1.1) {
+            $this->_httpVersion = CURL_HTTP_VERSION_1_1;
+        }
+        else {
+            throw new \InvalidArgumentException(sprintf('Trying to setup invalid http version %s available: (1.0, 1.1)', $version));
+        }
+        return $this;
     }
 
     public function setRequestTimeout($timeout, $inMilliseconds = false)
@@ -104,7 +125,6 @@ class Request
         else {
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->_requestTimeout);
         }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Expect:")); //override HTTP/1.1 Except: 100-continue header to not allow chunked transfer
         $this->_response = new Response;
         $response = curl_exec($ch);
         if ($response === false) {
@@ -113,9 +133,13 @@ class Request
         }
         else {
             $headerLength = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+
+            $body = substr($response, $headerLength);
+            $headers = explode("\n", trim(substr($response, 0, $headerLength)));
+
             $this->_response
-                ->setBody(substr($response, $headerLength))
-                ->addHeaders(explode("\n", trim(substr($response, 0, $headerLength))));
+                ->setBody($body)
+                ->addHeaders($headers);
         }
         curl_close($ch);
     }
