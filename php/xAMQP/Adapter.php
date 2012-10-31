@@ -3,7 +3,7 @@ namespace xAMQP;
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Exchange.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Queue.php';
 /**
- * USAGE:
+ * Usage Example
  *
  * $amqp = new xAMQP\Adapter(new AMQPConnection());
  * $queue1 = $amqp->declareQueue('queue1');
@@ -16,7 +16,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Queue.php';
  *   ->bindQueue($queue2, 'routing.key');
  *
  * To send message to queues binded to goal exchange:
- *      $amqp->exchange('goal')->publish($message, 'device.info');
+ *      $amqp->exchange('')->publish($message, 'device.info');
  *
  * To receive message from queue:
  *      $amqp->queue('queue1')->shift(); //get and ack
@@ -28,7 +28,7 @@ class Adapter
     protected $_exchanges = array();
     protected $_queues = array();
 
-    public function __construct(AMQPConnection $amqp_connection)
+    public function __construct(\AMQPConnection $amqp_connection)
     {
         if (!$amqp_connection->isConnected()) {
            $amqp_connection->connect();
@@ -66,7 +66,7 @@ class Adapter
             throw new \InvalidArgumentException(sprintf('Exchange %s already declared', $name));
         }
 
-        $exchange = new Exchange(new AMQPChannel($this->_connection));
+        $exchange = new Exchange(new \AMQPChannel($this->_connection));
         $exchange->setName($name);
         $exchange->setType($type);
         $exchange->declare();
@@ -85,7 +85,7 @@ class Adapter
             throw new \InvalidArgumentException(sprintf('Queue %s already declared', $name));
         }
 
-        $queue = new xAMQPQueue(new AMQPChannel($this->_connection));
+        $queue = new xAMQPQueue(new \AMQPChannel($this->_connection));
         $queue->setName($name);
         $queue->declare();
         $this->_queues[$name] = $queue;

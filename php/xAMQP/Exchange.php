@@ -18,7 +18,7 @@ class Exchange extends \AMQPExchange
      * @param string $routing 
      * @return xAMQPExchange
      */
-    public function bindQueue(AMQPQueue $queue, $routing)
+    public function bindQueue(\AMQPQueue $queue, $routing)
     {
         $queue->bind($this->getName(), $routing);
         $this->_queues[$queue->getName()]['routings'][] = $routing;
