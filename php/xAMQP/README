@@ -1,7 +1,7 @@
-xAMQP
-wrapper for AMQP pecl library to make life easier</p>
+#xAMQP
+##wrapper for AMQP pecl library to make life easier</p>
 
-*Usage Example*
+##Usage Example
 
 $amqp = new xAMQP\Adapter(new AMQPConnection());
 $queue1 = $amqp->declareQueue('queue1');
