@@ -28,6 +28,7 @@ class Request
     protected $_cacheTime = 0;
     protected $_lockTime = 1;
     protected $_response;
+    protected $_requestString;
     protected $_requestTimeout = 10;
     protected $_requestTimeoutInMilliseconds = false; //Added in cURL 7.16.2. Available since PHP 5.2.3.
 
@@ -91,6 +92,10 @@ class Request
         return $this->_response;
     }
 
+    public function getRequestString()
+    {
+        return $this->_requestString;
+    }
 
     public function init()
     {
@@ -116,9 +121,11 @@ class Request
     public function getFromOrigin()
     {
         $ch = curl_init();
+        curl_setopt($ch, CURLOPT_HTTP_VERSION, $this->_httpVersion);
         curl_setopt($ch, CURLOPT_URL, $this->_uri);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
         if ($this->_requestTimeoutInMilliseconds) {
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, $this->_requestTimeout);
         }
@@ -128,8 +135,9 @@ class Request
         $this->_response = new Response;
         $response = curl_exec($ch);
         if ($response === false) {
+            $httpVersion = ($this->_httpVersion === CURL_HTTP_VERSION_1_0) ? '1.0' : 1.1;
             $this->_response
-                ->addHeader('HTTP/1.1 408 Request Time-out');
+                ->addHeader("HTTP/$httpVersion 408 Request Time-out");
         }
         else {
             $headerLength = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
@@ -141,6 +149,7 @@ class Request
                 ->setBody($body)
                 ->addHeaders($headers);
         }
+        $this->_requestString = curl_getinfo($ch, CURLINFO_HEADER_OUT);
         curl_close($ch);
     }
 
