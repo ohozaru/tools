@@ -11,8 +11,8 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'Queue.php';
  *
  * $exchange = $amqp->declareExchange('myexchange');
  * $exchange
- *   ->bindQueue($queue1, 'routing.key');
- *   ->bindQueue($queue1, 'routing.x.key');
+ *   ->bindQueue($queue1, 'routing.key')
+ *   ->bindQueue($queue1, 'routing.x.key')
  *   ->bindQueue($queue2, 'routing.key');
  *
  * To send message to queues binded to goal exchange:
@@ -63,7 +63,7 @@ class Adapter
     public function declareExchange($name, $type = AMQP_EX_TYPE_DIRECT)
     {
         if (array_key_exists($name, $this->_exchanges)) {
-            throw new \InvalidArgumentException(sprintf('Exchange %s already declared', $name));
+            throw new \RuntimeException(sprintf('Exchange %s already declared', $name));
         }
 
         $exchange = new Exchange(new \AMQPChannel($this->_connection));
@@ -85,7 +85,7 @@ class Adapter
             throw new \InvalidArgumentException(sprintf('Queue %s already declared', $name));
         }
 
-        $queue = new xAMQPQueue(new \AMQPChannel($this->_connection));
+        $queue = new Queue(new \AMQPChannel($this->_connection));
         $queue->setName($name);
         $queue->declare();
         $this->_queues[$name] = $queue;
@@ -96,8 +96,8 @@ class Adapter
      * Returns declared exchanged
      * 
      * @param $name (string)
-     * @return AMQPExchange
-     * @throws AMQPException
+     * @return Exchange
+     * @throws InvalidArgumentException
      */
     public function exchange($name)
     {
