@@ -3,8 +3,7 @@ namespace xAMQP;
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Exchange.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Queue.php';
 /**
- * How to use:
- * https://raw.github.com/nigro/tools/master/php/xAMQP/README
+ * @source: https://github.com/nigro/tools/tree/master/php/xAMQP
  */
 class Adapter
 {
