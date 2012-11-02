@@ -1,9 +1,7 @@
-<header>
-    <h1>xAMQP</h1>
-    <p>wrapper for AMQP pecl library to make life easier</p>
-</header>
+xAMQP
+wrapper for AMQP pecl library to make life easier</p>
 
-<h2>Usage Example</h2>
+*Usage Example*
 
 $amqp = new xAMQP\Adapter(new AMQPConnection());
 $queue1 = $amqp->declareQueue('queue1');
