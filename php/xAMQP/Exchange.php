@@ -2,7 +2,7 @@
 namespace xAMQP;
 class Exchange extends \AMQPExchange
 {
-    protected $_queues = array();
+    protected $_bindings = array();
 
     /**
      * Bind a given queue to routing key on current exchange
@@ -14,7 +14,7 @@ class Exchange extends \AMQPExchange
     public function bindQueue(Queue $queue, $routing)
     {
         $queue->bind($this->getName(), $routing);
-        $this->_queues[$queue->getName()]['routings'][] = $routing;
+        $this->_bindings[$queue->getName()]['routings'][] = $routing;
         return $this;
     }
 }

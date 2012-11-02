@@ -3,24 +3,8 @@ namespace xAMQP;
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Exchange.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'Queue.php';
 /**
- * Usage Example
- *
- * $amqp = new xAMQP\Adapter(new AMQPConnection());
- * $queue1 = $amqp->declareQueue('queue1');
- * $queue2 = $amqp->declareQueue('queue2');
- *
- * $exchange = $amqp->declareExchange('myexchange');
- * $exchange
- *   ->bindQueue($queue1, 'routing.key')
- *   ->bindQueue($queue1, 'routing.x.key')
- *   ->bindQueue($queue2, 'routing.key');
- *
- * To send message to queues binded to goal exchange:
- *      $amqp->exchange('')->publish($message, 'device.info');
- *
- * To receive message from queue:
- *      $amqp->queue('queue1')->shift(); //get and ack
- *      $amqp->queue('queue2')->get();   //get without ack
+ * How to use:
+ * https://raw.github.com/nigro/tools/master/php/xAMQP/README
  */
 class Adapter
 {
@@ -116,7 +100,7 @@ class Adapter
      */
     public function queue($name)
     {
-        if (!array_key($name, $this->_queues)) {
+        if (!array_key_exists($name, $this->_queues)) {
             throw new \InvalidArgumentException(sprintf('Queue %s is not declared', $name));
         }
         return $this->_queues[$name];

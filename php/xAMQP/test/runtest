@@ -1,0 +1,2 @@
+#!/bin/bash
+phpunit --process-isolation --colors TestAdapter.php

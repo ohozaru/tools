@@ -9,7 +9,8 @@ class Queue extends \AMQPQueue
      */
     public function shift()
     {
-        if ($envelope = $this->get()) {
+        return $this->get(AMQP_AUTOACK);
+        if ($envelope = $this->get(AMQP_AUTOACK)) {
             $this->ack($envelope->getDeliveryTag());
         }
         return $envelope;
