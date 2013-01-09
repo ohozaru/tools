@@ -10,7 +10,7 @@ import os
 import sys
 oldrev, newrev, ref = sys.stdin.read().strip().split(' ')
 test_file = os.popen('mktemp').read().strip()
-
+coding_standards = '/home/gitosis/coding_standards.xml'
 for line in os.popen('git diff --name-only %s %s' % (oldrev, newrev)).readlines():
     extension = line.split('.')[-1].strip()
     file_name = line.strip()
@@ -21,6 +21,6 @@ for line in os.popen('git diff --name-only %s %s' % (oldrev, newrev)).readlines(
             print "PHP Syntax error in file %s" % (file_name)
             sys.exit(1)
 
-        if 0 != os.system("phpcs -n --standard=/var/lib/gitosis/goal_coding_standards.xml %s" % (test_file)):
+        if 0 != os.system("phpcs -n --standard=%s %s" % (coding_standards, test_file)):
             print "Coding standards fail in file %s" % (file_name)
             sys.exit(2)
